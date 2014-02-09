@@ -47,4 +47,6 @@ if [[ -s ~/.nvm/nvm.sh ]]; then
   # Load NVM Completion
   [[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
 fi
-[[ -n $(command -v gulp)]] && . gulp --completion=bash
+if [[ -n $(command -v gulp) ]]; then
+	eval "$(gulp --completion=bash)"
+fi

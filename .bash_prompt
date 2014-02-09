@@ -45,13 +45,129 @@ export WHITE
 export BOLD
 export RESET
 
-function parse_git_dirty() {
-	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
+# check whether printf supports -v
+__git_printf_supports_v=
+printf -v __git_printf_supports_v -- '%s' yes >/dev/null 2>&1
+
+__scm_prompt() {
+    local RED="\033[0;31m"
+    local GREEN="\033[0;32m"
+    local ORANGE="\033[0;33m"
+    local BLUE="\033[0;34m"
+    local PURPLE="\033[0;35m"
+    local WHITE="\033[0;37m"
+    local RESET="\033[m"
+    local pcmode=no
+	local ps1pc_start='\u@\h:\w '
+	local ps1pc_end='\$ '
+	local printf_format=' [%s]'
+
+	case "$#" in
+		2|3)	pcmode=yes
+			ps1pc_start="$1"
+			ps1pc_end="$2"
+			printf_format="${3:-$printf_format}"
+		;;
+		0|1)	printf_format="${1:-$printf_format}"
+		;;
+		*)	return
+		;;
+	esac
+
+	local git_repo_info hg_repo_info
+	git_repo_info="$(git rev-parse --git-dir 2> /dev/null)"
+	hg_repo_info="$(hg root 2> /dev/null)"
+
+	if [ -n "$git_repo_info" ]; then
+        local index_added=0 index_modified=0 index_deleted=0
+        local working_added=0 working_modified=0 working_deleted=0
+        local git_status line x y
+
+        IFS=$'\n'
+        git_status="$(git status --porcelain 2> /dev/null)"
+
+        for line in $git_status; do
+            x=${line:0:1}; y=${line:1:1};
+            if [[ $x = '?' ]]; then
+                let working_added++
+            else
+                [[ $x = 'A' ]] && let index_added++
+                [[ $x = 'M' ]] && let index_modified++
+                [[ $x = 'D' ]] && let index_deleted++
+                [[ $y = 'M' ]] && let working_modified++
+                [[ $y = 'D' ]] && let working_deleted++
+            fi
+        done
+
+        local status_info="git:$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
+
+        if [[ index_added -gt 0 || index_modified -gt 0 || index_deleted -gt 0 ]]; then
+            status_info+="\[$GREEN\]"
+            status_info+=" +$index_added"
+            status_info+=" ~$index_modified"
+            status_info+=" -$index_deleted"
+            status_info+="\[$RESET\]"
+        fi
+        if [[ working_added -gt 0 || working_modified -gt 0 || working_deleted -gt 0 ]]; then
+            status_info+="\[$RED\]"
+            status_info+=" +$working_added"
+            status_info+=" ~$working_modified"
+            status_info+=" -$working_deleted"
+            status_info+="\[$RESET\]"
+        fi
+
+        if [ $pcmode = yes ]; then
+            if [ "${__git_printf_supports_v-}" != yes ]; then
+                status_info=$(printf -- "$printf_format" "$status_info")
+            else
+                printf -v status_info -- "$printf_format" "$status_info"
+            fi
+            PS1="$ps1pc_start$status_info$ps1pc_end"
+        else
+            printf -- "$printf_format" "$status_info"
+        fi
+	elif [ -n "$hg_repo_info" ]; then
+        local working_untracked=0 working_added=0 working_modified=0 working_deleted=0 working_missing=0
+        local hg_status line x y
+
+        IFS=$'\n'
+        hg_status="$(hg status 2> /dev/null)"
+
+        for line in $hg_status; do
+            x=${line:0:1};
+            [[ $x = '?' ]] && let working_untracked++
+            [[ $x = 'A' ]] && let working_added++
+            [[ $x = 'M' ]] && let working_modified++
+            [[ $x = 'D' ]] && let working_deleted++
+            [[ $x = '!' ]] && let working_missing++
+        done
+
+        local status_info="hg:$(hg branch 2> /dev/null)"
+
+        if [[ working_untracked -gt 0 || working_added -gt 0 || working_modified -gt 0 || working_deleted -gt 0 || working_missing -gt 0 ]]; then
+            status_info+="\[$RED\]"
+            status_info+=" ?$working_untracked"
+            status_info+=" +$working_added"
+            status_info+=" ~$working_modified"
+            status_info+=" -$working_deleted"
+            status_info+=" !$working_missing"
+            status_info+="\[$RESET\]"
+        fi
+
+        if [ $pcmode = yes ]; then
+            if [ "${__git_printf_supports_v-}" != yes ]; then
+                status_info=$(printf -- "$printf_format" "$status_info")
+            else
+                printf -v status_info -- "$printf_format" "$status_info"
+            fi
+            PS1="$ps1pc_start$status_info$ps1pc_end"
+        else
+            printf -- "$printf_format" "$status_info"
+        fi
+	elif [ $pcmode = yes ]; then
+		#In PC mode PS1 always needs to be set
+		PS1="$ps1pc_start$ps1pc_end"
+	fi
 }
 
-function parse_git_branch() {
-	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
-}
-
-export PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]at \[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
-export PS2="\[$ORANGE\]→ \[$RESET\]"
+PROMPT_COMMAND='__scm_prompt "\u@\h:\w" "\\\$ "'
