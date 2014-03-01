@@ -154,3 +154,8 @@ alias reload="exec $SHELL -l"
 
 # Faster npm for europeans
 #command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.eu"
+
+# Control Sequences
+alias title='printf "\e]2;%s\a"'
+alias windowsize='printf "\e[8;%d;%dt"'
+alias windowsizepx='printf "\e[4;%d;%dt"'

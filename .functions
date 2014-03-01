@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# Set Window Title
-function title {
-  printf "\033]0;%s\007" "$1"
-}
-
 # Simple calculator
 function calc() {
 	local result=""
