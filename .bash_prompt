@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Based on:
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
 # Shamelessly copied from https://github.com/gf3/dotfiles
 # Screenshot: http://i.imgur.com/s0Blh.png
@@ -81,15 +82,18 @@ __scm_prompt() {
 	if [ -n "$git_repo_info" ]; then
         local index_added=0 index_modified=0 index_deleted=0
         local working_added=0 working_modified=0 working_deleted=0
+        local branch_status
         local git_status line x y
 
         IFS=$'\n'
-        git_status="$(git status --porcelain 2> /dev/null)"
+        git_status="$(git status --branch --porcelain 2> /dev/null)"
 
         for line in $git_status; do
             x=${line:0:1}; y=${line:1:1};
             if [[ $x = '?' ]]; then
                 let working_added++
+            elif [[ $x = '#' && $y = '#' ]]; then
+                branch_status=${line:3}
             else
                 [[ $x = 'A' ]] && let index_added++
                 [[ $x = 'M' ]] && let index_modified++
@@ -99,7 +103,14 @@ __scm_prompt() {
             fi
         done
 
-        local status_info="git:$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
+        local status_info="git:";
+        if [[ $branch_status =~ "[ahead" ]]; then
+            status_info+="\[$GREEN\]"
+        elif [[ $branch_status =~ "[behind" ]]; then
+            status_info+="\[$ORANGE\]"
+        fi
+        status_info+=$(echo $branch_status | sed -e 's/\.\{3\}.*//');
+        status_info+="\[$RESET\]"
 
         if [[ index_added -gt 0 || index_modified -gt 0 || index_deleted -gt 0 ]]; then
             status_info+="\[$GREEN\]"
