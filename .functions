@@ -254,6 +254,13 @@ function gi() {
 	eval npm install --save-dev grunt-{"$*"}
 }
 
+# Install Lineman plugins and add them as `devDependencies` to `package.json`
+# Usage: `li bower coffeelint jade`
+function li() {
+	local IFS=,
+	eval npm install --save-dev lineman-{"$*"}
+}
+
 # `m` with no arguments opens the current directory in TextMate, otherwise
 # opens the given location
 function m() {
@@ -281,6 +288,16 @@ function v() {
 		vim .
 	else
 		vim "$@"
+	fi
+}
+
+# `ws` with no arguments opens the current directory in WebStorm, otherwise opens the
+# given location
+function ws() {
+	if [ $# -eq 0 ]; then
+		open -a "/Applications/WebStorm.app/" .
+	else
+		open -a "/Applications/WebStorm.app/" "$@"
 	fi
 }
 
