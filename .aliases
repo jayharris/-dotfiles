@@ -159,3 +159,4 @@ alias reload="exec $SHELL -l"
 alias title='printf "\e]2;%s\a"'
 alias windowsize='printf "\e[8;%d;%dt"'
 alias windowsizepx='printf "\e[4;%d;%dt"'
+alias cls='printf "\ec"'
