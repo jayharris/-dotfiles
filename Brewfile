@@ -41,6 +41,7 @@ install git
 #install imagemagick
 #install lynx
 install mercurial
+install macvim
 #install node
 #install pigz
 #install rename
