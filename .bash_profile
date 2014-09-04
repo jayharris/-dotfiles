@@ -39,14 +39,23 @@ complete -W "NSGlobalDomain" defaults
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 
 # If possible, add tab completion for many more commands
-[[ -f $(brew --prefix)/etc/bash_completion ]] && . $(brew --prefix)/etc/bash_completion
-[[ -s ~/.rvm/scripts/rvm ]] && . ~/.rvm/scripts/rvm
-if [[ -s ~/.nvm/nvm.sh ]]; then
-  . ~/.nvm/nvm.sh
-
-  # Load NVM Completion
-  [[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
 fi
+
+# Execute NVM
+if [[ -s $(brew --prefix nvm)/nvm.sh ]]; then
+  . $(brew --prefix nvm)/nvm.sh
+fi
+
+# Gulp Bash Completion
 if [[ -n $(command -v gulp) ]]; then
 	eval "$(gulp --completion=bash)"
+fi
+
+# RVM
+if [[ -s ~/.rvm/scripts/rvm ]]; then
+  . ~/.rvm/scripts/rvm
+  # RVM bash completion
+  [[ -r ~/.rvm/scripts/completion ]] && . ~/.rvm/scripts/completion
 fi
