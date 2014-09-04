@@ -10,6 +10,8 @@ di = !eval "f() { hg diff --rev -$1 --stat; }; f"
 ca = commit --addremove --verbose
 # Find commits by commit message
 fm = !eval "f() { hg log --template '\033[0;33m{node|short}\033[0m  \033[0;34m{date|shortdate}\033[0m  {desc|strip|firstline}  \033[0;32m[{author|strip|person}]\033[0m\n' --keyword=$1; }; f"
+# Find my commits
+me = log -u "$(hg config ui.username)"
 
 [ui]
 ssh = ssh -C
