@@ -59,3 +59,8 @@ if [[ -s ~/.rvm/scripts/rvm ]]; then
   # RVM bash completion
   [[ -r ~/.rvm/scripts/completion ]] && . ~/.rvm/scripts/completion
 fi
+
+# KVM
+if [[ -n $(command -v kvm.sh) ]]; then
+  . kvm.sh
+fi
