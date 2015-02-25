@@ -29,3 +29,13 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 # Setup NVM Directory
 export NVM_DIR=~/.nvm
 
+# Setup Mono
+#MONO_PREFIX=/usr/local/opt/mono
+#if [[ -e $MONO_PREFIX ]]; then
+#  export DYLD_FALLBACK_LIBRARY_PATH=$MONO_PREFIX/lib:$DYLD_LIBRARY_FALLBACK_PATH
+#  export LD_LIBRARY_PATH=$MONO_PREFIX/lib:$LD_LIBRARY_PATH
+#  export C_INCLUDE_PATH=$MONO_PREFIX/include
+#  export ACLOCAL_PATH=$MONO_PREFIX/share/aclocal
+#  export PKG_CONFIG_PATH=$MONO_PREFIX/lib/pkgconfig
+#  export MONO_GAC_PREFIX="/usr/local"
+#fi

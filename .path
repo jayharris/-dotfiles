@@ -3,3 +3,10 @@
 export PATH=/usr/local/bin:$PATH
 
 [[ -s ~/.rvm/scripts/rvm ]] && export PATH=$PATH:$HOME/.rvm/bin
+[[ -s /usr/local/opt/mono/bin ]] && export PATH=$PATH:/usr/local/opt/mono/bin
+
+# CoreUtils
+if [[ -s $(brew --prefix coreutils) ]]; then
+  export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+  export MANPATH=$(brew --prefix coreutils)/libexec/gnuman:$MANPATH
+fi
