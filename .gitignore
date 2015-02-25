@@ -15,3 +15,6 @@ Thumbs.db
 
 # Shhh. The Extra file is a secret
 .extra
+
+# WebStorm and Friends
+.idea/
