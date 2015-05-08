@@ -2,6 +2,7 @@
 brew tap phinze/homebrew-cask
 brew install brew-cask
 brew tap caskroom/versions
+brew tap caskroom/fonts
 
 function installcask() {
 	brew cask install "${@}" 2> /dev/null
@@ -9,6 +10,7 @@ function installcask() {
 
 installcask appcode
 installcask camtasia
+installcask chromium
 installcask copy
 installcask dropbox
 installcask filezilla
@@ -22,15 +24,22 @@ installcask keka
 installcask livereload
 # installcask macvim
 # installcask miro-video-converter
-installcask skype
+installcask mono-mre
 installcask opera
+installcask skype
 installcask snagit
+installcask sourcetree
 installcask spotify
 installcask sublime-text
 # installcask the-unarchiver
-# installcask tor-browser
+installcask torbrowser
 # installcask transmission
 # installcask ukelele
 # installcask virtualbox
 # installcask vlc
 installcask webstorm
+installcask xamarin-studio
+
+# Fonts
+installcask font-source-code-pro
+
