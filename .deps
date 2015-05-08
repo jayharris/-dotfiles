@@ -6,3 +6,6 @@ curl -sSL https://get.rvm.io | bash -s stable --ruby
 # Install Homebrew (brew.sh)
 ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
+# Install Janus for vim
+curl -Lo- https://bit.ly/janus-bootstrap | bash
+
