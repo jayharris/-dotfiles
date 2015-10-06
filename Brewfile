@@ -2,7 +2,7 @@
 update
 
 # Upgrade any already-installed formulae
-upgrade
+upgrade --all
 
 # Install GNU core utilities (those that come with OS X are outdated)
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
@@ -33,10 +33,15 @@ install phpmyadmin
 # This formula didn’t work well last time I tried it:
 #install homebrew/dupes/screen
 
+# Install Mono
+install mono
+
 # Install other useful binaries
 install ack
 install blueutil
+install dnvm
 #install exiv2
+install ffmpeg
 install git
 #install imagemagick
 #install lynx
@@ -44,6 +49,7 @@ install mercurial
 install macvim
 install nvm
 #install node
+install phantomjs
 #install pigz
 #install rename
 #install rhino
