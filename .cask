@@ -8,6 +8,7 @@ function installcask() {
 	brew cask install "${@}" 2> /dev/null
 }
 
+installcask airmail-beta
 installcask appcode
 installcask camtasia
 installcask chromium
@@ -25,8 +26,10 @@ installcask livereload
 # installcask macvim
 # installcask miro-video-converter
 installcask mono-mre
+installcask mysqlworkbench
 installcask opera
 installcask skype
+installcask sourcetree
 installcask snagit
 installcask sourcetree
 installcask spotify
