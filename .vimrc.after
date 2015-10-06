@@ -1,5 +1,3 @@
-" Set the theme
 colorscheme jellybeans
 
-" Show hidden files in NERDTree
 let NERDTreeShowHidden=1
