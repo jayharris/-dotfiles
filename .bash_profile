@@ -38,20 +38,16 @@ complete -W "NSGlobalDomain" defaults
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 
-# If possible, add tab completion for many more commands
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
-fi
 
-# Execute NVM
-if [[ -s $(brew --prefix nvm)/nvm.sh ]]; then
-  . $(brew --prefix nvm)/nvm.sh
+if [[ -n $(command -v brew) ]]; then
+  # If possible, add tab completion for many more commands
+  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+  fi
 fi
 
 # Gulp Bash Completion
-if [[ -n $(command -v gulp) ]]; then
-	eval "$(gulp --completion=bash)"
-fi
+[ -n $(command -v gulp) ] && eval "$(gulp --completion=bash)"
 
 # RVM
 if [[ -s ~/.rvm/scripts/rvm ]]; then
@@ -61,6 +57,7 @@ if [[ -s ~/.rvm/scripts/rvm ]]; then
 fi
 
 # DNVM
-if [[ -n $(command -v dnvm.sh) ]]; then
-  . dnvm.sh
-fi
+[ -n $(command -v dnvm.sh) ] && . dnvm.sh
+
+# NVM
+[ -s "~/.nvm/nvm.sh" ] && . "~/.nvm/nvm.sh"
