@@ -47,7 +47,9 @@ if [[ -n $(command -v brew) ]]; then
 fi
 
 # Gulp Bash Completion
-[ -n $(command -v gulp) ] && eval "$(gulp --completion=bash)"
+if [[ -n $(command -v gulp) ]]; then
+  eval "$(gulp --completion=bash)"
+fi
 
 # RVM
 if [[ -s ~/.rvm/scripts/rvm ]]; then
@@ -57,7 +59,12 @@ if [[ -s ~/.rvm/scripts/rvm ]]; then
 fi
 
 # DNVM
-[ -n $(command -v dnvm.sh) ] && . dnvm.sh
+if [[ -n $(command -v dnvm.sh) ]]; then
+  . dnvm.sh
+fi
 
 # NVM
-[ -s "~/.nvm/nvm.sh" ] && . "~/.nvm/nvm.sh"
+if [[ -s "~/.nvm/nvm.sh" ]]; then
+  . "~/.nvm/nvm.sh"
+fi
+
