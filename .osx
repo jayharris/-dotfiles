@@ -25,7 +25,7 @@ sudo pmset -a standbydelay 86400
 sudo nvram SystemAudioVolume=" "
 
 # Menu bar: enable transparency
-defaults write com.apple.universalaccess reduceTransparency -bool true
+defaults write com.apple.universalaccess reduceTransparency -bool false
 
 # Menu bar: hide the Time Machine, Volume, User icons
 for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
@@ -539,10 +539,10 @@ defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
 	'{"enabled" = 1;"name" = "DIRECTORIES";}' \
 	'{"enabled" = 1;"name" = "PDF";}' \
-	'{"enabled" = 1;"name" = "FONTS";}' \
+	'{"enabled" = 0;"name" = "FONTS";}' \
 	'{"enabled" = 0;"name" = "DOCUMENTS";}' \
 	'{"enabled" = 0;"name" = "MESSAGES";}' \
-	'{"enabled" = 0;"name" = "CONTACT";}' \
+	'{"enabled" = 1;"name" = "CONTACT";}' \
 	'{"enabled" = 0;"name" = "EVENT_TODO";}' \
 	'{"enabled" = 0;"name" = "IMAGES";}' \
 	'{"enabled" = 0;"name" = "BOOKMARKS";}' \
@@ -551,8 +551,8 @@ defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 0;"name" = "PRESENTATIONS";}' \
 	'{"enabled" = 0;"name" = "SPREADSHEETS";}' \
 	'{"enabled" = 0;"name" = "SOURCE";}' \
-	'{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
-	'{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
+	'{"enabled" = 1;"name" = "MENU_DEFINITION";}' \
+	'{"enabled" = 1;"name" = "MENU_EXPRESSION";}' \
 	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}' \
 	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
 	'{"enabled" = 0;"name" = "MENU_OTHER";}'
@@ -659,8 +659,8 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 ###############################################################################
 
 # Allow installing user scripts via GitHub Gist or Userscripts.org
-defaults write com.google.Chrome ExtensionInstallSources -array "https://*.github.com/*" "http://userscripts.org/*"		defaults write com.google.Chrome ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
-defaults write com.google.Chrome.canary ExtensionInstallSources -array "https://*.github.com/*" "http://userscripts.org/*"		defaults write com.google.Chrome.canary ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
+defaults write com.google.Chrome ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
+defaults write com.google.Chrome.canary ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
 
 # Disable the all-too-sensitive backswipe on trackpads
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
@@ -727,6 +727,8 @@ defaults write com.twitter.twitter-mac automaticallyScrollToTop -bool true
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
+
+# read -p "Press [Enter] restart affected applications..."
 
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	"Dock" "Finder" "Google Chrome" "Google Chrome Canary" "Mail" "Messages" \
