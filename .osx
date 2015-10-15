@@ -18,8 +18,8 @@ sudo scutil --set HostName "SamusAran"
 sudo scutil --set LocalHostName "SamusAran"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "SamusAran"
 
-# Disable Guest User account
-sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
+# Disable Guest User account: Not working in El Capitan
+# sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
