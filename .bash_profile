@@ -64,7 +64,7 @@ if [[ -n $(command -v dnvm.sh) ]]; then
 fi
 
 # NVM
-if [[ -s "~/.nvm/nvm.sh" ]]; then
-  . "~/.nvm/nvm.sh"
+if [[ -s ~/.nvm/nvm.sh ]]; then
+  . ~/.nvm/nvm.sh
 fi
 
