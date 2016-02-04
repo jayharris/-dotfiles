@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 [[ -s ~/.rvm/scripts/rvm ]] && export PATH=$PATH:$HOME/.rvm/bin
 [[ -s /usr/local/opt/mono/bin ]] && export PATH=$PATH:/usr/local/opt/mono/bin
