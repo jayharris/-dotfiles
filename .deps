@@ -136,6 +136,8 @@ npm install -g gulp
 npm install -g less
 npm install -g lineman
 npm install -g mocha
+npm install -g sass
+npm install -g sass-lint
 npm install -g yo
 
 # Yo Generators
