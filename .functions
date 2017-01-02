@@ -18,6 +18,21 @@ function calc() {
 	printf "\n"
 }
 
+# Confirmation command to use in functions and aliases
+# with optional confirmation message
+confirm () {
+  # call with a prompt string or use a default
+  read -r -p "${1:-Are you sure? [y/N]} " response
+  case $response in
+    [yY][eE][sS]|[yY])
+      true
+      ;;
+    *)
+      false
+      ;;
+  esac
+}
+
 # Create a new directory and enter it
 function mkd() {
 	mkdir -p "$@" && cd "$@"
@@ -331,3 +346,34 @@ function np() {
 function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
 }
+
+# Check which versions of Homebrew Cask applicationas are outdated
+function cask-outdated() {
+  for formula in $(brew cask list | grep -Fv '(!)'); do
+    info=$(brew cask info $formula | head -n 3)
+    new_ver=$(echo "$info" | head -n 1 | cut -d' ' -f 2)
+    cur_ver=$(echo "$info" \
+      | grep '^/usr/local/Caskroom' \
+      | cut -d' ' -f 1 \
+      | cut -d/ -f 6)
+    if [ "$new_ver" != "$cur_ver" ]; then
+      echo "$formula ($cur_ver < $new_ver)"
+    fi
+  done
+}
+
+# Prompt to upgrade outdated versions of Homebrew Cask applications
+function cask-upgrade() {
+  for formula in $(brew cask list | grep -Fv '(!)'); do
+    info=$(brew cask info $formula | head -n 3)
+    new_ver=$(echo "$info" | head -n 1 | cut -d' ' -f 2)
+    cur_ver=$(echo "$info" \
+      | grep '^/usr/local/Caskroom' \
+      | cut -d' ' -f 1 \
+      | cut -d/ -f 6)
+    if [ "$new_ver" != "$cur_ver" ]; then
+      confirm "Upgrade $formula from $cur_ver to $new_ver? [y/N]" && brew cask reinstall $formula;
+    fi
+  done
+}
+
